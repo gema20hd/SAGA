@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="template.xhtml">
+    <br></br>
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:toolbar >               
+            <f:facet name="right">
+                <p:inputText id="txtBusPor"
+                             value="#{fichaProfesorBean.fichaProfesor.fichaProId}" placeholder="Ingrese el nro de cedula" />
+                <p:commandButton value="Buscar"  icon="ui-icon-search" 
+                                 process="@this :frmGen:txtBusPor"
+                                 actionListener="#{fichaProfesorBean.buscarFichaProfesor()}"
+                                 update=":frmGen:menGen :frmGen:datTabFichaPro"/>
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton  value="Nuevo" icon="ui-icon-document" 
+                                  process="@this" actionListener="#{fichaProfesorBean.resetearFormularioFichaProfesor()}"
+                                  update="@form" />
+                <span class="ui-separator"> <span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+
+                <p:commandButton  value="Guardar" icon="ui-icon-disk" 
+                                  process="@this :frmGen:panGriFichaPro"
+                                  actionListener="#{fichaProfesorBean.guardarFichaProfesor()}"
+                                  update=":frmGen:menGen :frmGen:datTabFichaPro :frmGen:panGriFichaPro" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Editar" icon="ui-icon-pencil" styleClass="etiqueta1"
+                                 process="@this" actionListener="#{fichaProfesorBean.editarFichaProfesor()}"
+                                 update=":frmGen:menGen :frmGen:panGriFichaPro" />
+                <span class="ui-separator"> <span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+
+                <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                 onclick="PF('diaConFichaPro').show();" />
+            </f:facet>
+        </p:toolbar>
+        <p:panelGrid id="panGriFichaPro" columns="6" styleClass="div">
+            <p:outputLabel value="País de Naci:" for="cmbTipFiPro" styleClass="etiqueta" />
+            <p:selectOneMenu id="cmbTipFiPro" value="#{fichaProfesorBean.fichaProfesor.paisNaci}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="Ecuador"  itemValue="Ecuador" />
+                <f:selectItem itemLabel="Venezuela"  itemValue="Venezuela" />
+                <f:selectItem itemLabel="Colombia"  itemValue="Colombia" />
+                <f:selectItem itemLabel="Mexico"  itemValue="Mexico" />
+            </p:selectOneMenu>
+            <p:outputLabel value="Cantón Naci:" for="txtCanPro" styleClass="etiqueta" />
+            <p:inputText id="txtCanPro" required="true" maxlength="55"
+                         value="#{fichaProfesorBean.fichaProfesor.cantonNaci}"  />
+
+            <p:outputLabel value="Nacionalidad:" for="cmbFiPro"  styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbFiPro" value="#{fichaProfesorBean.fichaProfesor.nacionalidad}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="Ecuatorian@"  itemValue="Ecuatoriana" />
+                <f:selectItem itemLabel="Venezolan@"  itemValue="Venezolan@" />
+                <f:selectItem itemLabel="Colombian@"  itemValue="Colombian@" />
+                <f:selectItem itemLabel="Mexican@"  itemValue="Mexican@" />
+            </p:selectOneMenu>
+
+            <p:outputLabel value="País de Residencia:" for="txtPaisReci"  styleClass="etiqueta"/>
+            <p:selectOneMenu id="txtPaisReci" value="#{fichaProfesorBean.fichaProfesor.paisVive}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="Ecuador"  itemValue="Ecuador" />
+                <f:selectItem itemLabel="Venezuela"  itemValue="Venezuela" />
+                <f:selectItem itemLabel="Colombia"  itemValue="Colombia" />
+                <f:selectItem itemLabel="Mexico"  itemValue="Mexico" />
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Cantón de Residencia:" for="txtCanResi"  styleClass="etiqueta"/>
+            <p:inputText id="txtCanResi" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.cantonVive}" />
+
+            <p:outputLabel value="Calle Principal:" for="txtCallP"  styleClass="etiqueta"/>
+            <p:inputText id="txtCallP" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.callepVive}" />
+            <p:outputLabel value="Calle Secundaria:" for="txtCallSe"  styleClass="etiqueta"/>
+            <p:inputText id="txtCallSe" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.callesVive}" />
+
+            <p:outputLabel value="Nro de Casa:" for="txtNroCas"  styleClass="etiqueta"/>
+            <p:inputText id="txtNroCas" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.nrocasaVive}" />
+            <p:outputLabel value="Referencia de la Casa:" for="txtRefCasa"  styleClass="etiqueta"/>
+            <p:inputText id="txtRefCasa" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.referenciaVive}" />
+
+            <p:outputLabel value="Título Academico:" for="txtTica"  styleClass="etiqueta"/>
+            <p:inputText id="txtTica" required="true" maxlength="10"                           
+                         value="#{fichaProfesorBean.fichaProfesor.profesion1Pro}" />
+
+            <p:outputLabel value="Idioma:" for="cmbIdi" styleClass="etiqueta" />
+            <p:selectOneMenu id="cmbIdi" value="#{empleadoBean.empleado.sexo}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="INGLES"  itemValue="INGLES" />
+                <f:selectItem itemLabel="ESPAÑOL"  itemValue="ESPAÑOL"/>
+                <f:selectItem itemLabel="PORTUGUES"  itemValue="PORTUGUES"/>
+            </p:selectOneMenu>
+
+
+            <p:outputLabel value="Experiencia Lab :" for="cmbExp" styleClass="etiqueta" />
+            <p:selectOneMenu id="cmbExp" value="#{empleadoBean.empleado.sexo}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="1 a  2 años"  itemValue="1 a  2 años" />
+                <f:selectItem itemLabel="2 a 5 años"  itemValue="2 a 5 años"/>
+                <f:selectItem itemLabel="5 años en adelante"  itemValue="5 años en adelante"/>
+            </p:selectOneMenu>
+
+        </p:panelGrid>
+        <br></br>
+
+        <p:dataTable id="datTabFichaPro" 
+                     emptyMessage="No existen Fichas de los Profesores registrados"
+                     value="#{fichaProfesorBean.listaFProfesor}" var="fichaPro"
+                     selectionMode="single" rowKey="#{fichaPro.fichaProId}">
+            <p:ajax event="rowSelect"
+                    listener="#{fichaProfesorBean.seleccionarFichaProfesor}" />
+
+            <p:column headerText="Pais de Nacimiento "  >
+                <p:outputLabel value="#{fichaPro.paisNaci}" />
+            </p:column>
+            <p:column headerText="Cantón">
+                <p:outputLabel value="#{fichaPro.cantonNaci}" />
+            </p:column>
+
+            <p:column headerText="Pais de Recidencia: ">
+                <p:outputLabel value="#{fichaPro.paisVive}"  />
+            </p:column>
+
+            <p:column headerText="Nro de casa:">
+                <p:outputLabel value="#{fichaPro.nrocasaVive}"  />
+            </p:column>
+
+            <p:column headerText="Trabajo actual:">
+                <p:outputLabel value="#{fichaPro.profesion1Pro}"  />
+            </p:column>
+
+            <p:column headerText="Idioma:">
+                <p:outputLabel value="#{fichaPro.idioma1}"  />
+            </p:column>
+
+            <p:column headerText="Experiencia Laboral:">
+                <p:outputLabel value="#{fichaPro.experencia1Pro}"  />
+            </p:column>
+
+        </p:dataTable>
+
+        <p:dialog widgetVar="diaConFichaPro" header="Confirmación Eliminación"
+                  width="300" height="100">
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Está seguro de eliminar el registro?" />
+                <p:commandButton value="Si" process="@this"
+                                 actionListener="#{empleadoBean.eliminarEmpleado()}"
+                                 update=":frmGen:menGen :frmGen:datTabFichaPro" 
+                                 oncomplete="PF('diaConFichaPro').hide();"/>
+                <p:commandButton value="No" onclick="PF('diaConFichaPro').hide();" />
+            </p:panelGrid>
+
+        </p:dialog>
+
+
+        <span class="ui-separator"> <span
+                class="ui-icon ui-icon-grip-dotted-vertical" />
+        </span>
+        <h:form>           
+            <p:panelGrid columns="1">
+                <h:link value="Regresar" outcome="vistaEstudiante.xhtml"/>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

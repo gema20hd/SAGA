@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="template.xhtml">
+
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:toolbar >
+            <f:facet name="right">
+                <p:commandButton  value="Nuevo" icon="ui-icon-document" 
+                                  process="@this" actionListener="#{documentoBean.resetearFormularioDocumento()}"
+                                  update="@form" />
+                <span class="ui-separator"> <span  class="ui-icon ui-icon-grip-dotted-vertical" /> </span>
+                <p:commandButton  value="Guardar" icon="ui-icon-disk" 
+                                  process="@this :frmGen:panGriDocumento"
+                                  actionListener="#{documentoBean.guardarDocumento()}"
+                                  update=":frmGen:menGen :frmGen:datTabEmpleado :frmGen:panGriDocumento" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Editar" icon="ui-icon-pencil" styleClass="etiqueta1"
+                                 process="@this" actionListener="#{documentoBean.editarDocumento()}"
+                                 update=":frmGen:menGen :frmGen:panGriDocumento" />
+                <span class="ui-separator"> <span  class="ui-icon ui-icon-grip-dotted-vertical" /> </span>
+                <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                 onclick="PF('diaConDocumentos').show();" />
+            </f:facet>
+        </p:toolbar>
+        <p:panelGrid id="panGriDocumento" columns="6">
+            <p:outputLabel value="Documento:" for="txtNomEmple" styleClass="etiqueta" />
+            <p:inputText id="txtNomEmple" required="true" maxlength="55"
+                         value="#{documentoBean.documentos.nombreDocument}"  />
+
+            <p:outputLabel value="Tipo Documento :" for="cmbDocu" />
+            <p:selectOneMenu id="cmbDocu" required="true" effect="drop"
+                             value="#{documentoBean.documentos.tipoDocumento}"
+                             converter="#{convTipDoc}">
+                <f:selectItem itemLabel="Seleccione una opción"
+                              noSelectionOption="true" itemValue=""/>
+                <f:selectItems value="#{documentoBean.listaTipoDocumentos}"
+                               var="tipPro" itemLabel="#{tipPro.descripcion}"
+                               itemValue="#{tipPro}" />
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <br></br>
+        <p:dataTable id="datTabEmpleado"
+                     emptyMessage="No existen Documentos registrados"
+                     value="#{documentoBean.listaDocumentos}" var="docu"
+                     selectionMode="single" rowKey="#{docu.documentoId}">
+            <p:ajax event="rowSelect"
+                    listener="#{documentoBean.seleccionarDocumento}" />
+            <p:column headerText="Documento "  >
+                <p:outputLabel value="#{docu.nombreDocument}" />
+            </p:column>
+
+            <p:column headerText="Tipo_Documento">
+                <p:outputLabel value="#{docu.tipoDocumento.descripcion}" />
+            </p:column>
+
+        </p:dataTable>
+        <p:dialog widgetVar="diaConDocumentos" header="Confirmación Eliminación"
+                  width="300" height="100">
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Está seguro de eliminar el registro?" />
+                <p:commandButton value="Si" process="@this"
+                                 actionListener="#{documentoBean.eliminarDocumento()}"
+                                 update=":frmGen:menGen :frmGen:datTabEmpleado" 
+                                 oncomplete="PF('diaConDocumentos').hide();"/>
+                <p:commandButton value="No" onclick="PF('diaConDocumentos').hide();" />
+            </p:panelGrid>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="templateI.xhtml">
+
+
+    <ui:define name="contenido">
+        <p:growl id="messages" showDetail="true"/>
+
+        <p:toolbar style="color: #0056b3" > 
+            <f:facet name="left" >
+
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+
+                <p:menuButton value="VISTA ESTUDIANTE">
+                    <p:menuitem value="Ir a " action="vistaEstudiante.xhtml" update="messages" />
+                </p:menuButton>
+
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+
+
+                <p:menuButton value="VISTA PROFESOR">
+                    <p:menuitem value="Ir a " action="vistaProfesor.xhtml" update="messages" />
+                </p:menuButton>
+
+                <span class="ui-separator"> <span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+
+
+                <p:menuButton value="VISTA EMPLEADO">
+                    <p:menuitem value="Ir a " action="vistaAdministrativo.xhtml" update="messages" />
+                </p:menuButton>
+                    <span class="ui-separator"> <span class="ui-icon ui-icon-grip-dotted-vertical" /></span>
+
+                    <p:menuButton value="AUDITORIA">
+                        <p:menuitem  id="ida" value="Ir a " action="auditoriaTablas.xhtml" update="messages" />
+                    </p:menuButton>
+                    <span class="ui-separator"> <span class="ui-icon ui-icon-grip-dotted-vertical" /> </span>
+                    <p:commandButton icon="ui-icon-check" value="CERRAR SECCIÓN"  actionListener="#{loginBeange.cerrarSesion()}"/>
+            </f:facet>
+
+        </p:toolbar>
+    </ui:define>
+</ui:composition>

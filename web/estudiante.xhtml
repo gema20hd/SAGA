@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="template.xhtml">
+
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:toolbar>
+            <f:facet name="right">
+                <p:inputText id="txtBusPor"
+                             value="#{estudianteBean.estudiante.dniEst}" placeholder="Ingrese el nro de cedula" />
+
+                <p:commandButton value="Buscar"  icon="ui-icon-search" 
+                                 process="@this :frmGen:txtBusPor"
+                                 actionListener="#{estudianteBean.buscarEstudiante()}"
+                                 update=":frmGen:menGen :frmGen:datTabEstudiante"/>
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton  value="Nuevo" icon="ui-icon-document" 
+                                  process="@this" actionListener="#{estudianteBean.resetearFormularioEstudiante()}"
+                                  update="@form" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton  value="Guardar" icon="ui-icon-disk" 
+                                  process="@this :frmGen:panGriAEstudiante"
+                                  actionListener="#{estudianteBean.guardarEstudiante()}"
+                                  update=":frmGen:menGen :frmGen:datTabEstudiante :frmGen:panGriAEstudiante" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Editar" icon="ui-icon-pencil" styleClass="etiqueta1"
+                                 process="@this" actionListener="#{estudianteBean.editarEstudiante()}"
+                                 update=":frmGen:menGen :frmGen:panGriAEstudiante" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                 onclick="PF('diaConEstudiante').show();" />
+            </f:facet>
+        </p:toolbar>
+
+        <p:panelGrid id="panGriAEstudiante" columns="6">
+            <p:outputLabel value="Nombre:" for="txtNomAdmin" styleClass="etiqueta" />
+            <p:inputText id="txtNomAdmin" required="true" maxlength="55"
+                         value="#{estudianteBean.estudiante.nombreEst}"  />
+
+            <p:outputLabel value="Apellidos:" for="txtApeCliente"  styleClass="etiqueta"/>
+            <p:inputText id="txtApeCliente" required="true" maxlength="50"                           
+                         value="#{estudianteBean.estudiante.apellidoEst}"  />
+
+            <p:outputLabel value="Tipo Identificación:"  styleClass="etiqueta"/>         
+            <p:selectOneMenu id="cmbIdenti" value="#{estudianteBean.estudiante.tipoIdentificacion}">
+                <f:selectItem itemLabel="Seleccione una opción"  />
+                <f:selectItem itemLabel="CEDULA"  itemValue="CEDULA" />
+                <f:selectItem itemLabel="PASAPORTE"  itemValue="PASAPORTE"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Nro Cédula:" for="txtDniAdmin"  styleClass="etiqueta"/>
+            <p:inputText id="txtDniAdmin" required="true" maxlength="10"                           
+                         value="#{estudianteBean.estudiante.dniEst}"  />
+            <p:outputLabel value="Telefono:" for="txtTelfAdmin" styleClass="etiqueta" />
+            <p:inputText id="txtTelfAdmin" required="true" maxlength="10"                           
+                         value="#{estudianteBean.estudiante.telefono}"  />
+            <p:outputLabel value="Genero:"  styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbSexo" value="#{estudianteBean.estudiante.sexo}">
+                <f:selectItem itemLabel="Seleccione  una opción" />
+                <f:selectItem itemLabel="HOMBRE"  itemValue="HOMBRE" />
+                <f:selectItem itemLabel="MUJER"  itemValue="MUJER"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="Mail:" for="txtMailAdmin"  styleClass="etiqueta"/>
+            <p:inputText id="txtMailAdmin" required="true" maxlength="60"                           
+                         value="#{estudianteBean.estudiante.mail}"  />
+
+            <p:outputLabel value="Fecha  Naci:" styleClass="etiqueta" />
+            <p:inputText  id="calFecFac" value="#{estudianteBean.estudiante.fechaNaci}" />
+
+            <p:outputLabel value="Ficha Estudiantil :" for="cmbFiEst"   styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbFiEst" required="true" effect="drop"
+                             value="#{estudianteBean.estudiante.fichaEstId}"
+                             converter="#{convFichaEst}">
+                <f:selectItem itemLabel="Seleccione  una opción"
+                              noSelectionOption="true" itemValue=""/>
+                <f:selectItems value="#{estudianteBean.listaFichaEstudiantes}"
+                               var="fichEst" itemLabel="#{fichEst.nombreFicha}"
+                               itemValue="#{fichEst}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Documento :" for="cmbDocu"  styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbDocu" required="true" effect="drop"
+                             value="#{estudianteBean.estudiante.documentoId}"
+                             converter="#{convDoc}">
+                <f:selectItem itemLabel="Seleccione"
+                              noSelectionOption="true" itemValue=""/>
+                <f:selectItems value="#{estudianteBean.listaDocumentos}"
+                               var="docEst" itemLabel="#{docEst.nombreDocument}"
+                               itemValue="#{docEst}" />
+            </p:selectOneMenu>
+
+        </p:panelGrid>
+        <br></br>
+        <p:dataTable id="datTabEstudiante"
+                     emptyMessage="No existen estudiantes registrados"
+                     value="#{estudianteBean.listaEstudiante}" var="estudy"
+                     selectionMode="single" rowKey="#{estudy.estudianteId}">
+            <f:facet name="header">
+                <p:outputLabel value="Lista de Estudiantes" />
+            </f:facet>
+            <p:ajax event="rowSelect"
+                    listener="#{estudianteBean.seleccionarEstudiante}" />
+            <p:column headerText="Tipo Estudiante"  >
+                <p:outputLabel value="#{estudy.nombreTipoUsuario}" />
+            </p:column>
+
+            <p:column headerText="Nombres"  >
+                <p:outputLabel value="#{estudy.nombreEst}" />
+            </p:column>
+            <p:column headerText="Apellidos">
+                <p:outputLabel value="#{estudy.apellidoEst}" />
+            </p:column>
+
+            <p:column headerText="Tipo Identificaón">
+                <p:outputLabel value="#{estudy.tipoIdentificacion}" />
+            </p:column>
+
+            <p:column headerText="Cedula">
+                <p:outputLabel value="#{estudy.dniEst}" />
+            </p:column>
+            <p:column headerText="Telefono">
+                <p:outputLabel value="#{estudy.telefono}"  />
+            </p:column>
+            <p:column headerText="Genero">
+                <p:outputLabel value="#{estudy.sexo}" style="width: 150px" />
+            </p:column>
+
+        </p:dataTable>
+        <p:dialog widgetVar="diaConEstudiante" header="Confirmación Eliminación"
+                  width="300" height="100">
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Está seguro de eliminar el registro?" />
+                <p:commandButton value="Si" process="@this"
+                                 actionListener="#{estudianteBean.eliminarEstudiante()}"
+                                 update=":frmGen:menGen :frmGen:datTabEstudiante" 
+                                 oncomplete="PF('diaConEstudiante').hide();"/>
+                <p:commandButton value="No" onclick="PF('diaConEstudiante').hide();" />
+            </p:panelGrid>
+        </p:dialog>
+
+
+        <span class="ui-separator"> <span
+                class="ui-icon ui-icon-grip-dotted-vertical" />
+        </span>
+        <h:form>           
+            <p:panelGrid columns="1">
+                <h:link value="Regresar" outcome="vistaEstudiante.xhtml"/>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

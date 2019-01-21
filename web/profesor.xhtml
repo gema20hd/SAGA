@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"  
+                template="template.xhtml">
+
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:toolbar>
+            <f:facet name="right">
+                <p:inputText id="txtBusPor"
+                             value="#{profesorBean.profesor.dniPrf}" placeholder="Ingrese el nro de cedula" />
+                <p:commandButton value="Buscar"  icon="ui-icon-search" 
+                                 process="@this :frmGen:txtBusPor"
+                                 actionListener="#{profesorBean.buscarProfesor()}"
+                                 update=":frmGen:menGen :frmGen:datTabProfesor"/>
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+
+                <p:commandButton value="Nuevo" icon="ui-icon-document"
+                                 process="@this" actionListener="#{profesorBean.resetearFormularioProfesor()}"
+                                 update="@form" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Guardar" icon="ui-icon-disk"
+                                 process="@this :frmGen:panGriProfesor"
+                                 actionListener="#{profesorBean.guardarProfesor()}"
+                                 update=":frmGen:menGen :frmGen:datTabProfesor :frmGen:panGriProfesor" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Editar" icon="ui-icon-pencil"
+                                 process="@this" actionListener="#{profesorBean.editarProfesor()}"
+                                 update=":frmGen:menGen :frmGen:panGriProfesor" />
+                <span class="ui-separator"> <span
+                        class="ui-icon ui-icon-grip-dotted-vertical" />
+                </span>
+                <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                 onclick="PF('diaConProfesor').show();" />
+            </f:facet>
+        </p:toolbar>
+        <p:panelGrid id="panGriProfesor" columns="6">
+
+            <p:outputLabel value="Nombre:" for="txtNomAdmin" styleClass="etiqueta" />
+            <p:inputText id="txtNomAdmin" required="true" maxlength="55"
+                         value="#{profesorBean.profesor.nombrePrf}" style="width: 150px" />
+
+            <p:outputLabel value="Fecha:" styleClass="etiqueta"/>
+            <p:calendar id="calFecFac" value="#{profesorBean.profesor.fechaNaci}" />
+
+            <p:outputLabel value="Apellidos:" for="txtApeCliente" styleClass="etiqueta"/>
+            <p:inputText id="txtApeCliente" required="true" maxlength="50"                           
+                         value="#{profesorBean.profesor.apellidoPrf}" style="width: 150px" />
+
+
+            <p:outputLabel value="Cedula:" for="txtDniAdmin" styleClass="etiqueta"/>
+            <p:inputText id="txtDniAdmin" required="true" maxlength="10"                           
+                         value="#{profesorBean.profesor.dniPrf}" style="width: 150px" />
+
+            <p:outputLabel value="Titulo:" for="txtTitAdmin" styleClass="etiqueta"/>
+            <p:selectOneMenu id="txtTitAdmin" value="#{profesorBean.profesor.tituloAcad}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="INGENIERO"  itemValue="INGENIERO"/>
+                <f:selectItem itemLabel="MAGISTER"  itemValue="MAGISTER"/>
+                <f:selectItem itemLabel="PHD"  itemValue="PHD"/>
+                <f:selectItem itemLabel="DOCTOR"  itemValue="DOCTOR"/>
+                <f:selectItem itemLabel="MBA"  itemValue="MBA"/>
+
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Telefono:" for="txtTelfAdmin" styleClass="etiqueta"/>
+            <p:inputText id="txtTelfAdmin" required="true" maxlength="10"                           
+                         value="#{profesorBean.profesor.telefono}" style="width: 150px" />
+
+            <p:outputLabel value="Mail:" for="txtMailAdmin"  styleClass="etiqueta"/>
+            <p:inputText id="txtMailAdmin" required="true" maxlength="60"                           
+                         value="#{profesorBean.profesor.mail}" style="width: 150px" />
+            <p:outputLabel value="Genero:" for="cmbSexo" styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbSexo" value="#{profesorBean.profesor.sexo}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="HOMBRE"  itemValue="HOMBRE" />
+                <f:selectItem itemLabel="MUJER"  itemValue="MUJER"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Tipo de Profesor:" for="cmbProfe" styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbProfe" value="#{profesorBean.profesor.nombreTipoUsuario}">
+                <f:selectItem itemLabel="Seleccione una opción" />
+                <f:selectItem itemLabel="PRINCIPAL"  itemValue="PRINCIPAL" />
+                <f:selectItem itemLabel="AGREGADO"  itemValue="AGREGADO"/>
+                <f:selectItem itemLabel="AUXILIAR"  itemValue="AUXILIAR"/>
+                <f:selectItem itemLabel="CONTRATO"  itemValue="CONTRATO"/>
+            </p:selectOneMenu>
+            <p:outputLabel value="Ficha Profesor :" for="cmbFiEmp"  styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbFiEmp" required="true" effect="drop"
+                             value="#{profesorBean.profesor.fichaProId}"
+                             converter="#{convFichaPro}">
+                <f:selectItem itemLabel="Seleccione una opción"
+                              noSelectionOption="true" itemValue=""/>
+                <f:selectItems value="#{profesorBean.listaFichaProfesor}"
+                               var="tipPro" itemLabel="#{tipPro.nombreFicha}"
+                               itemValue="#{tipPro}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Documento :" for="cmbDocu" styleClass="etiqueta"/>
+            <p:selectOneMenu id="cmbDocu" required="true" effect="drop"
+                             value="#{profesorBean.profesor.documentoId}"
+                             converter="#{convDoc}">
+                <f:selectItem itemLabel="Seleccione una opción"
+                              noSelectionOption="true" itemValue=""/>
+                <f:selectItems value="#{profesorBean.listaDocumentos}"
+                               var="docuProfe" itemLabel="#{docuProfe.nombreDocument}"
+                               itemValue="#{docuProfe}" />
+            </p:selectOneMenu>
+
+        </p:panelGrid>
+        <br></br>
+        <p:dataTable id="datTabProfesor"
+                     emptyMessage="No existen profesores registrados"
+                     value="#{profesorBean.listaProfesor}" var="profe" selectionMode="single"
+                     rowKey="#{profe.profesorId}">
+            <p:ajax event="rowSelect"
+                    listener="#{profesorBean.seleccionarProfesor}" />
+            <p:column headerText="Nombres"  >
+                <p:outputLabel value="#{profe.nombrePrf}" />
+            </p:column>
+            <p:column headerText="Apellidos">
+                <p:outputLabel value="#{profe.apellidoPrf}" />
+            </p:column>
+            <p:column headerText="Cedula">
+                <p:outputLabel value="#{profe.dniPrf}" />
+            </p:column>
+            <p:column headerText="Telefono">
+                <p:outputLabel value="#{profe.telefono}"  />
+            </p:column>
+            <p:column headerText="Sexo">
+                <p:outputLabel value="#{profe.sexo}" style="width: 150px" />
+            </p:column>
+
+        </p:dataTable>
+        <p:dialog widgetVar="diaConProfesor" header="Confirmación Eliminación"
+                  width="300" height="100">
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Está seguro de eliminar el registro?" />
+                <p:commandButton value="Si" process="@this"
+                                 actionListener="#{profesorBean.eliminarProfesor()}"
+                                 update=":frmGen:menGen :frmGen:datTabProfesor" 
+                                 oncomplete="PF('diaConProfesor').hide();"/>
+                <p:commandButton value="No" onclick="PF('diaConProfesor').hide();" />
+            </p:panelGrid>
+        </p:dialog>
+
+        <span class="ui-separator"> <span
+                class="ui-icon ui-icon-grip-dotted-vertical" />
+        </span>
+        <h:form>           
+            <p:panelGrid columns="1">
+                <h:link value="Regresar" outcome="vistaProfesor.xhtml"/>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Autenticacion</title>
+        <link rel="stylesheet" href="./css/master.css" type="text/css" media="all"></link>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:messages autoUpdate="true" showDetail="true"/>
+            <div align="center">
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <p:panelGrid columns="1" id="pgError3">
+                    <f:facet name="header">
+                        <p:outputLabel value="AUTENTICACIÓN" />
+                    </f:facet>
+
+                    <p:outputLabel for="txtUser" value="Usuario"/>
+                    <i class="fa fa-user-secret"></i>
+                    <p:inputText id="txtUser" value="#{loginBean.nombreUsr}" required="true" placeholder=" Username"/>
+                    <p:message for="txtUser"/>
+
+                    <p:outputLabel for="txtPass" value="Contraseña" /> 
+                    <i class="fa fa-key"></i>
+                    <p:password    id="txtPass" value="#{loginBean.claveUsr}" required="true" placeholder="Enter Password"/>
+                    <p:message for="txtPass"/>
+                    <p:commandButton icon="ui-icon-check" value="INICIO" action="#{loginBean.validarUsuario()}" update=" pgError3"/>
+
+                </p:panelGrid> 
+            </div>
+
+        </h:form>
+
+    </h:body>
+</html>
+

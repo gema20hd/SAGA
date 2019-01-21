@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" 
+                template="template.xhtml">
+   
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:tabView id="tabVieGen">
+
+            <br></br>
+            <p:tab title="AUDITORIA  A PROFESORES">
+                <p:panelGrid id="panGriAuditoria" columns="1">
+                    <p:dataTable id="datTabAuditoria" 
+                                 emptyMessage="No existe Auditorias de la tabla profesor "
+                                 value="#{auditoriasTablas.listaAuditoriaProfesor}" var="pro"
+                                 selectionMode="single" rowKey="#{pro.id}">
+                        <p:column headerText="Código" style="width: 70px" >
+                            <p:outputLabel value="#{pro.id}"  />
+                        </p:column>
+                        <p:column headerText="Tabla"  >
+                            <p:outputLabel value="#{pro.tableName}" >
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Usuario" >
+                            <p:outputLabel value="#{pro.userName} " />
+                        </p:column>
+                        <p:column headerText="Hora que se realizo cambios" >
+                            <p:outputLabel value="#{pro.actionTstamp}" />
+                        </p:column>
+                        <p:column headerText="Acción"  >
+                            <p:outputLabel value="#{pro.action}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="datTabAudirotia2" 
+                                 emptyMessage="No existe Auditorias de la tabla profesor "
+                                 value="#{auditoriasTablas.listaAuditoriaProfesor}" var="pro"
+                                 selectionMode="single" rowKey="#{pro.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{pro.id}" />
+                        </p:column>
+
+                        <p:column headerText="Dato Antiguo"   >
+                            <p:outputLabel value="#{pro.originalData}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabAudirotia4" 
+                                 emptyMessage="No existe Auditorias de la tabla profesor "
+                                 value="#{auditoriasTablas.listaAuditoriaProfesor}" var="pro"
+                                 selectionMode="single" rowKey="#{pro.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{pro.id}" />
+                        </p:column>
+
+                        <p:column headerText="Dato Nuevo"   >
+                            <p:outputLabel value="#{pro.newData}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabAudirotia4" 
+                                 emptyMessage="No existe Auditorias de la tabla profesor "
+                                 value="#{auditoriasTablas.listaAuditoriaProfesor}" var="pro"
+                                 selectionMode="single" rowKey="#{pro.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{pro.id}" />
+                        </p:column>
+                        <p:column headerText="Query"   >
+                            <p:outputLabel value="#{pro.query}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panelGrid>
+
+            </p:tab>
+
+            <br></br>
+
+            <br></br>
+            <p:tab title="AUDITORIA EMPLEADO">
+                <p:panelGrid id="panGriEmpleado" columns="1">
+                    <p:dataTable id="datTabEmp" 
+                                 emptyMessage="No existe Auditorias de la tabla empleado "
+                                 value="#{auditoriasTablas.listaAuditoriaEmpleado}" var="emp"
+                                 selectionMode="single" rowKey="#{emp.id}">
+                        <p:column headerText="Código" style="width: 70px" >
+                            <p:outputLabel value="#{emp.id}"  />
+                        </p:column>
+                        <p:column headerText="Tabla"  >
+                            <p:outputLabel value="#{emp.tableName}" >
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Usuario" >
+                            <p:outputLabel value="#{emp.userName} " />
+                        </p:column>
+                        <p:column headerText="Hora que se realizo cambios" >
+                            <p:outputLabel value="#{emp.actionTstamp}" />
+                        </p:column>
+                        <p:column headerText="Acción"  >
+                            <p:outputLabel value="#{emp.action}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabDATO1" 
+                                 emptyMessage="No existe Auditorias de la tabla empleado "
+                                 value="#{auditoriasTablas.listaAuditoriaEmpleado}" var="emp"
+                                 selectionMode="single" rowKey="#{emp.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{emp.id}" />
+                        </p:column>
+                        <p:column headerText="Dato Antiguo"   >
+                            <p:outputLabel value="#{emp.originalData}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabDATO1" 
+                                 emptyMessage="No existe Auditorias de la tabla empleado "
+                                 value="#{auditoriasTablas.listaAuditoriaEmpleado}" var="emp"
+                                 selectionMode="single" rowKey="#{emp.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{emp.id}" />
+                        </p:column>
+                        <p:column headerText="Dato Nuevo"   >
+                            <p:outputLabel value="#{emp.newData}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="datTabDATO2" 
+                                 emptyMessage="No existe Auditorias de la tabla empleado "
+                                 value="#{auditoriasTablas.listaAuditoriaEmpleado}" var="emp"
+                                 selectionMode="single" rowKey="#{emp.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{emp.id}" />
+                        </p:column>
+                        <p:column headerText="Query"   >
+                            <p:outputLabel value="#{emp.query}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panelGrid>
+
+            </p:tab>
+
+            <br></br>
+
+            <br></br>
+            <p:tab title="AUDITORIA ESTUDIANTE">
+                <p:panelGrid id="panGriEstudiante1" columns="1">
+                    <p:dataTable id="datTabEstudiante1" 
+                                 emptyMessage="No existe Auditorias de la tabla estudiante "
+                                 value="#{auditoriasTablas.listaAuditoriaEstudiante}" var="est"
+                                 selectionMode="single" rowKey="#{est.id}">
+                        <p:column headerText="Código" style="width: 70px" >
+                            <p:outputLabel value="#{est.id}"  />
+                        </p:column>
+                        <p:column headerText="Tabla"  >
+                            <p:outputLabel value="#{est.tableName}" >
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Usuario" >
+                            <p:outputLabel value="#{est.userName} " />
+                        </p:column>
+                        <p:column headerText="Hora que se realizo cambios" >
+                            <p:outputLabel value="#{est.actionTstamp}" />
+                        </p:column>
+                        <p:column headerText="Acción"  >
+                            <p:outputLabel value="#{est.action}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabEstudiante2" 
+                                 emptyMessage="No existe Auditorias de la tabla estudiante "
+                                 value="#{auditoriasTablas.listaAuditoriaEstudiante}" var="est"
+                                 selectionMode="single" rowKey="#{est.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{est.id}" />
+                        </p:column>
+                        <p:column headerText="Dato Antiguo"   >
+                            <p:outputLabel value="#{est.originalData}" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:dataTable id="datTabEstudiante3" 
+                                 emptyMessage="No existe Auditorias de la tabla estudiante "
+                                 value="#{auditoriasTablas.listaAuditoriaEstudiante}" var="est"
+                                 selectionMode="single" rowKey="#{est.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{est.id}" />
+                        </p:column>
+                        <p:column headerText="Dato Nuevo"   >
+                            <p:outputLabel value="#{est.newData}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable id="datTabDATO2" 
+                                 emptyMessage="No existe Auditorias de la tabla estudiante "
+                                 value="#{auditoriasTablas.listaAuditoriaEstudiante}" var="est"
+                                 selectionMode="single" rowKey="#{est.id}">
+                        <p:column headerText="Código" style="width: 70px">
+                            <p:outputLabel value="#{est.id}" />
+                        </p:column>
+                        <p:column headerText="Query"   >
+                            <p:outputLabel value="#{est.query}" />
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panelGrid>
+
+            </p:tab>
+
+        </p:tabView>
+        
+
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" 
+                template="template.xhtml">
+
+    <ui:define name="contenido">
+        <p:growl id="menGen" />
+        <p:tabView id="tabVieGen">
+
+            <p:tab title="Listar  Profesores">
+                <h:form id="frmEmpleados">
+
+                    <p:panelGrid id="panGriBusFac" columns="4" style="width:100%">
+                        <p:outputLabel value="Buscar Profesores:" for="txtBusPor" />
+                        <p:inputText id="txtBusPor"
+                                     value="#{profesorBean.profesor.dniPrf}" placeholder="Ingrese el nro de cedula" />
+                        <p:commandButton value="Buscar"  icon="ui-icon-search" 
+                                         process="@this :frmGen:tabVieGen:frmEmpleados:txtBusPor"
+                                         actionListener="#{profesorBean.buscarProfesor()}"
+                                         update=":frmGen:tabVieGen:datTabFac"/>
+
+                    </p:panelGrid>
+
+                </h:form>
+                <br></br>
+                <p:dataTable id="datTabFac" value="#{profesorBean.listaProfesor}"
+                             var="profe" selectionMode="single" rowKey="#{profe.profesorId}">
+                    <p:ajax event="rowSelect"
+                            listener="#{profesorBean.seleccionarProfesor}" />
+                    <p:column headerText="Código" style="width: 70px">
+                        <p:outputLabel value="#{profe.profesorId}"  />
+                    </p:column>
+
+                    <p:column headerText="Fecha Naci"  >
+                        <p:outputLabel value="#{profe.fechaNaci}" >
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="nombre" >
+                        <p:outputLabel value="#{profe.nombrePrf}" >
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Apellido" >
+                        <p:outputLabel value="#{profe.apellidoPrf} " />
+                    </p:column>
+
+                    <p:column headerText="Cédula" >
+                        <p:outputLabel value="#{profe.dniPrf}" />
+                    </p:column>
+
+                    <p:column headerText="Teléfono"  >
+                        <p:outputLabel value="#{profe.telefono}" />
+                    </p:column>
+                    <p:column headerText="Mail"  >
+                        <p:outputLabel value="#{profe.mail}" />
+                    </p:column>
+                    <p:column headerText="Genero"  >
+                        <p:outputLabel value="#{profe.sexo}" />
+                    </p:column>
+                    <p:column headerText="Título" >
+                        <p:outputLabel value="#{profe.tituloAcad}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+
+            <p:tab title="Reportes Profesor Materias">
+                <p:panelGrid id="panGriBusFac" columns="4" style="width:100%">
+                    <p:outputLabel value="Buscar Por:" for="txtBusPor" />        
+                    <p:selectOneMenu id="txtBusPor" value="#{estudianteBean.semestre.descripcionSmt}">
+                        <f:selectItem itemLabel="Seleccione una opción" />
+                        <f:selectItem itemLabel="PRIMERO"  itemValue="PRIMERO" />
+                        <f:selectItem itemLabel="SEGUNDO"  itemValue="SEGUNDO" />
+                        <f:selectItem itemLabel="TERCERO"  itemValue="TERCERO" />
+                        <f:selectItem itemLabel="CUARTO"  itemValue="CUARTO" />
+                        <f:selectItem itemLabel="QUINTO"  itemValue="QUINTO" />
+                        <f:selectItem itemLabel="SEXTO"  itemValue="SEXTO" />
+                        <f:selectItem itemLabel="SÉPTIMO"  itemValue="SEPTIMO" />
+                        <f:selectItem itemLabel="OCTAVO"  itemValue="OCTAVO" />
+                        <f:selectItem itemLabel="NOVENO"  itemValue="NOVENO" />
+                        <f:selectItem itemLabel="DÉCIMO"  itemValue="DECIMO" />               
+                    </p:selectOneMenu>
+
+                    <p:commandButton icon="ui-icon-search"
+                                     process="@this :frmGen:tabVieGen:panGriBusFac"
+                                     actionListener="#{estudianteBean.buscarSemestre}"
+                                     update=":frmGen:menGen :frmGen:tabVieGen:datTabFac" />
+                </p:panelGrid>
+                <br></br>
+
+                <p:dataTable  id="datTabSemstre" value="#{profesorBean.listaMatProfe}"
+                              var="est" selectionMode="single" rowKey="#{est.carreraMateriaProfesorId}">
+
+                    <p:column headerText=" Periodo ">
+                        <p:outputLabel value="#{est.carreraId.periodoId.fechaInicio}  #{est.carreraId.periodoId.fechaInicio}" />
+                    </p:column>
+                    <p:column headerText=" Carrera ">
+                        <p:outputLabel value="#{est.carreraId.nombreCar}" />
+
+                    </p:column>
+                    <p:column headerText=" Nombre  y Apellido ">
+                        <p:outputLabel value="#{est.profesorId.nombrePrf} #{est.profesorId.apellidoPrf}" />
+                    </p:column>
+                    <p:column headerText=" Materia">
+                        <p:outputLabel value="#{est.materiaId.nombreMat}" />
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+            <br></br>
+
+            <p:tab title="Listar de Fichas de los Profesores">
+                <p:dataTable   value="#{fichaEstudianteBean.listaFEstudiante}" var="fichaEst">
+                    <f:facet name="header">
+                        FICHA ESTUDIANTIL
+                    </f:facet>
+
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="3" headerText="ESTUDIANTE" />
+                            <p:column colspan="2" headerText="NACIONALIDAD" />
+                            <p:column colspan="4" headerText="RESIDENCIA" />
+                            <p:column colspan="3" headerText="DISCAPACIDAD" />
+                        </p:row>
+
+                        <p:row>
+                            <p:column headerText="Pais"  />
+                            <p:column headerText="Ciudad"/>
+                            <p:column headerText="Pais  "/>
+                            <p:column headerText="Ciudad"/>
+                            <p:column headerText="Cantón"/>
+                            <p:column headerText="Dirección" />
+                            <p:column headerText="Discapacidad"/>
+                            <p:column headerText="Tipo Discapacidad:"/>
+                            <p:column headerText="Porcentaje:"/>
+                        </p:row>
+                    </p:columnGroup>
+
+                    <p:column headerText="EST "  >
+                        <p:column headerText="Estudiantes">
+                            <p:dataList value="#{fichaEst.estudianteList}" var="docuList">
+                                <p:outputLabel value="#{docuList}" />
+                            </p:dataList>
+                        </p:column>
+
+                    </p:column>
+                    <p:column headerText="Pais de Nacimiento "  >
+                        <p:outputLabel value="#{fichaEst.paisNaci}" />
+                    </p:column>
+                    <p:column headerText="Ciudad Nacimiento: ">
+                        <p:outputLabel value="#{fichaEst.cantonNaci}" />
+                    </p:column>
+                    <p:column headerText="Pais de Recidencia: ">
+                        <p:outputLabel value="#{fichaEst.paisVive}"  />
+                    </p:column>
+                    <p:column headerText="Cantón de Recidencia:">
+                        <p:outputLabel value="#{fichaEst.cantonVive}"  />
+                    </p:column>
+                    <p:column headerText="Parroquia de Recidencia:">
+                        <p:outputLabel value="#{fichaEst.parroquiaVive}"  />
+                    </p:column>
+                    <p:column headerText="Dirreción:"  >
+                        <p:outputLabel value="#{fichaEst.callepVive} #{fichaEst.nrocasaVive}" />
+                    </p:column>
+                    <p:column headerText="Discapacidad:">
+                        <p:outputLabel value="#{fichaEst.discapacidad}"  />
+                    </p:column>
+                    <p:column headerText=" Tipo Discapacidad:">
+                        <p:outputLabel value="#{fichaEst.tipoDiscapacidad}"  />
+                    </p:column>
+
+                    <p:column headerText="Porcentaje Disc:">
+                        <p:outputLabel value="#{fichaEst.porcentaje}%"/>
+                    </p:column>
+
+                    <p:columnGroup type="footer">
+                        <p:row>
+
+                        </p:row>
+                    </p:columnGroup>
+
+                    <f:facet name="footer">
+                        2018 2019
+                    </f:facet>
+                </p:dataTable>
+            </p:tab>
+            <br></br>
+            <p:tab title="Documentos Entregados">
+                <br></br>
+                <p:dataTable  id="datTabDocumentos" value="#{profesorBean.listaProfesor}"
+                              var="profe" selectionMode="single" rowKey="#{profe.profesorId}">
+
+                    <p:column headerText="Nombre" >
+                        <p:outputLabel value="#{profe.nombrePrf} " />
+                    </p:column>
+
+                    <p:column headerText="Apellido" >
+                        <p:outputLabel value="#{profe.apellidoPrf} " />
+                    </p:column>
+                    <p:column headerText="Documento">
+                        <p:dataList value="#{profe.documentoId.tipoDocumento.documento}" var="docuList">
+                            <p:outputLabel value="#{docuList}" />
+                        </p:dataList>
+                    </p:column>
+                    <p:column headerText=" Tipo de Documento">
+                        <p:dataList value="#{profe.documentoId.tipoDocumento}" var="tipDocList">
+                            <p:outputLabel value="#{tipDocList}" />
+                        </p:dataList>
+                    </p:column>
+                </p:dataTable>
+
+            </p:tab>
+
+        </p:tabView>
+
+        <span class="ui-separator"> <span
+                class="ui-icon ui-icon-grip-dotted-vertical" />
+        </span>
+        <h:form>           
+            <p:panelGrid columns="1">
+                <h:link value="Regresar" outcome="vistaProfesor.xhtml"/>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
